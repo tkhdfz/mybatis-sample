@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="my.sample.domain.repository.BookRepository">
+
+  <select id="find2" resultMap="bookShelf-map2">
+    select
+      shelf_id,
+      isbn
+    from bookshelf
+    where shelf_id = #{shelfId}
+  </select>
+
+  <resultMap id="bookShelf-map2" type="my.sample.domain.model.BookShelf">
+    <id property="shelfId" column="shelf_id" />
+    <collection property="books" column="isbn"
+      ofType="my.sample.domain.model.Book" select="selectBooks" />
+  </resultMap>
+
+  <select id="selectBooks" resultType="my.sample.domain.model.Book">
+    select
+      isbn,
+      title,
+      author,
+      publisher
+    from book
+    where isbn = #{isbn}
+  </select>
+
+  <resultMap id="bookShelf-map" type="my.sample.domain.model.BookShelf">
+  <id property="shelfId" column="shelf_id" />
+  <collection property="books" ofType="my.sample.domain.model.Book">
+    <id property="isbn" column="isbn" />
+    <result property="title" column="title" />
+    <result property="author" column="author" />
+    <result property="publisher" column="publisher" />
+  </collection>
+  </resultMap>
+
+  <select id="find" resultMap="bookShelf-map">
+    select
+      S.shelf_id,
+      B.isbn,
+      B.title,
+      B.author,
+      B.publisher
+    from
+      BookShelf S inner join Book B
+    on S.isbn = B.isbn
+    where S.shelf_id = #{shelfId}
+  </select>
+
+</mapper>

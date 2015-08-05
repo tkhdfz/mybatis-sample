@@ -1,0 +1,18 @@
+# Java
+*.class
+*.jar
+*.war
+*.ear
+
+# Eclipse
+.project
+.classpath
+.settings
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Maven
+target
+log
