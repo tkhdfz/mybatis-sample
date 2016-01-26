@@ -51,4 +51,39 @@
     where S.shelf_id = #{shelfId}
   </select>
 
+  <insert id="insert" parameterType="my.sample.domain.model.Book">
+    insert
+      into book(
+        isbn,
+        title,
+        author,
+        publisher
+      )
+      values(
+        #{isbn},
+        #{title},
+        #{author},
+        #{publisher}
+      )
+  </insert>
+
+  <update id="update" parameterType="my.sample.domain.model.Book">
+    update book
+      set
+        title = #{title},
+        author = #{author},
+        publisher = #{publisher}
+      where
+        isbn = #{isbn}
+  </update>
+
+  <select id="findAll" resultType="my.sample.domain.model.Book">
+    select
+      isbn,
+      title,
+      author,
+      publisher
+    from book order by isbn
+  </select>
+
 </mapper>
