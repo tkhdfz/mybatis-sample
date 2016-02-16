@@ -18,16 +18,16 @@
   <context:component-scan base-package="my.sample.*" />
 
   <bean id="realDataSource" class="org.apache.commons.dbcp2.BasicDataSource"
-    destroy-method="close">
-    <property name="driverClassName" value="${database.driverClassName}" />
-    <property name="url" value="${database.url}" />
-    <property name="username" value="${database.username}" />
-    <property name="password" value="${database.password}" />
-    <property name="defaultAutoCommit" value="false" />
-    <property name="maxTotal" value="${cp.maxActive}" />
-    <property name="maxIdle" value="${cp.maxIdle}" />
-    <property name="minIdle" value="${cp.minIdle}" />
-    <property name="maxWaitMillis" value="${cp.maxWait}" />
+        destroy-method="close">
+    <property name="driverClassName" value="${database.driverClassName}"/>
+    <property name="url" value="${database.url}"/>
+    <property name="username" value="${database.username}"/>
+    <property name="password" value="${database.password}"/>
+    <property name="defaultAutoCommit" value="false"/>
+    <property name="maxTotal" value="${cp.maxActive}"/>
+    <property name="maxIdle" value="${cp.maxIdle}"/>
+    <property name="minIdle" value="${cp.minIdle}"/>
+    <property name="maxWaitMillis" value="${cp.maxWait}"/>
   </bean>
 
   <bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
@@ -41,12 +41,14 @@
 
   <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
     <property name="dataSource" ref="dataSource" />
-    <!-- <property name="configLocation" value="classpath:/META-INF/mybatis/mybatis-config.xml" 
+    <!-- <property name="configLocation" value="classpath:/META-INF/mybatis/mybatis-config.xml"
       /> -->
   </bean>
 
   <mybatis:scan base-package="my.sample.domain.repository" />
 
-
+  <jdbc:initialize-database data-source="dataSource" ignore-failures="ALL">
+    <jdbc:script location="classpath:/sql/book.sql" />
+  </jdbc:initialize-database>
 
 </beans>

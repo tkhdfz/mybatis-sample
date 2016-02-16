@@ -36,7 +36,6 @@ INSERT INTO BOOK  (isbn, title, author, publisher)
 INSERT INTO BOOK  (isbn, title, author, publisher)
   VALUES ('isbn0000000010', 'title10', 'author10','publisher10');
 
-
 INSERT INTO BOOKSHELF  (shelf_id, isbn)
   VALUES ('0000000001', 'isbn0000000001');
 INSERT INTO BOOKSHELF  (shelf_id, isbn)
@@ -58,3 +57,4 @@ INSERT INTO BOOKSHELF  (shelf_id, isbn)
 INSERT INTO BOOKSHELF  (shelf_id, isbn)
   VALUES ('0000000002', 'isbn0000000010');
 
+COMMIT;
