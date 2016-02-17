@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
-  xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:context="http://www.springframework.org/schema/context"
-  xmlns:mybatis="http://mybatis.org/schema/mybatis-spring" xmlns:util="http://www.springframework.org/schema/util"
-  xsi:schemaLocation="
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mybatis="http://mybatis.org/schema/mybatis-spring" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="
      http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
      http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
      http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
@@ -11,44 +12,51 @@
      http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd
      http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
-  <context:property-placeholder location="classpath*:*.properties" />
+  <context:property-placeholder location="classpath*:*.properties"/>
 
-  <tx:annotation-driven />
-  <context:annotation-config />
-  <context:component-scan base-package="my.sample.*" />
+  <tx:annotation-driven/>
+  <context:annotation-config/>
+  <context:component-scan base-package="my.sample.*"/>
 
-  <bean id="realDataSource" class="org.apache.commons.dbcp2.BasicDataSource"
-        destroy-method="close">
-    <property name="driverClassName" value="${database.driverClassName}"/>
-    <property name="url" value="${database.url}"/>
-    <property name="username" value="${database.username}"/>
-    <property name="password" value="${database.password}"/>
-    <property name="defaultAutoCommit" value="false"/>
-    <property name="maxTotal" value="${cp.maxActive}"/>
-    <property name="maxIdle" value="${cp.maxIdle}"/>
-    <property name="minIdle" value="${cp.minIdle}"/>
-    <property name="maxWaitMillis" value="${cp.maxWait}"/>
-  </bean>
+  <!--
+    <bean id="realDataSource" class="org.apache.commons.dbcp2.BasicDataSource"
+          destroy-method="close">
+      <property name="driverClassName" value="${database.driverClassName}"/>
+      <property name="url" value="${database.url}"/>
+      <property name="username" value="${database.username}"/>
+      <property name="password" value="${database.password}"/>
+      <property name="defaultAutoCommit" value="false"/>
+      <property name="maxTotal" value="${cp.maxActive}"/>
+      <property name="maxIdle" value="${cp.maxIdle}"/>
+      <property name="minIdle" value="${cp.minIdle}"/>
+      <property name="maxWaitMillis" value="${cp.maxWait}"/>
+    </bean>
+  -->
+
+  <jdbc:embedded-database id="realDataSource" type="H2">
+    <jdbc:script location="classpath:/sql/book.sql"/>
+  </jdbc:embedded-database>
 
   <bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
-    <constructor-arg index="0" ref="realDataSource" />
+    <constructor-arg index="0" ref="realDataSource"/>
   </bean>
 
   <bean id="transactionManager"
-    class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-    <property name="dataSource" ref="dataSource" />
+        class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    <property name="dataSource" ref="dataSource"/>
   </bean>
 
   <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-    <property name="dataSource" ref="dataSource" />
-    <!-- <property name="configLocation" value="classpath:/META-INF/mybatis/mybatis-config.xml"
-      /> -->
+    <property name="dataSource" ref="dataSource"/>
+    <!--<property name="configLocation" value="classpath:/META-INF/mybatis/mybatis-config.xml"/>-->
   </bean>
 
-  <mybatis:scan base-package="my.sample.domain.repository" />
+  <mybatis:scan base-package="my.sample.domain.repository"/>
 
-  <jdbc:initialize-database data-source="dataSource" ignore-failures="ALL">
-    <jdbc:script location="classpath:/sql/book.sql" />
-  </jdbc:initialize-database>
+  <!--
+    <jdbc:initialize-database data-source="dataSource" ignore-failures="ALL">
+      <jdbc:script location="classpath:/sql/book.sql" />
+    </jdbc:initialize-database>
+  -->
 
 </beans>
