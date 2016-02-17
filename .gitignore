@@ -9,6 +9,10 @@
 .classpath
 .settings
 
+# IDEA
+.idea
+*.iml
+
 # OS
 Thumbs.db
 .DS_Store
