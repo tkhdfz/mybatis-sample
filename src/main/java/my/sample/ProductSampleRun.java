@@ -29,7 +29,8 @@ public class ProductSampleRun {
         }
         System.out.println("]");
 
-        productService.getBookShelfs("0000000002");
+        System.out.println(productService.getBookShelf2("isbn0000000006"));
+        System.out.println(productService.getBookShelves("0000000002"));
 
     }
 }

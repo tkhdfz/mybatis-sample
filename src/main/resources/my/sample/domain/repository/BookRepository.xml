@@ -1,8 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="my.sample.domain.repository.BookRepository">
+
+  <resultMap id="bookShelf-map3" type="my.sample.domain.model.BookShelf2">
+    <id property="shelfId" column="shelf_id"/>
+    <association property="book" javaType="my.sample.domain.model.Book">
+      <id property="isbn" column="isbn"/>
+      <id property="title" column="title"/>
+      <id property="author" column="author"/>
+      <id property="publisher" column="publisher"/>
+    </association>
+  </resultMap>
+
+  <select id="find3" resultMap="bookShelf-map3">
+    select
+    S.shelf_id,
+    B.isbn,
+    B.title,
+    B.author,
+    B.publisher
+    from
+    BookShelf S inner join Book B
+    on S.isbn = B.isbn
+    where B.isbn = #{isbn}
+  </select>
 
   <select id="find2" resultMap="bookShelf-map2">
     select
@@ -13,9 +36,9 @@
   </select>
 
   <resultMap id="bookShelf-map2" type="my.sample.domain.model.BookShelf">
-    <id property="shelfId" column="shelf_id" />
+    <id property="shelfId" column="shelf_id"/>
     <collection property="books" column="isbn"
-      ofType="my.sample.domain.model.Book" select="selectBooks" />
+                ofType="my.sample.domain.model.Book" select="selectBooks"/>
   </resultMap>
 
   <select id="selectBooks" resultType="my.sample.domain.model.Book">
@@ -29,13 +52,13 @@
   </select>
 
   <resultMap id="bookShelf-map" type="my.sample.domain.model.BookShelf">
-  <id property="shelfId" column="shelf_id" />
-  <collection property="books" ofType="my.sample.domain.model.Book">
-    <id property="isbn" column="isbn" />
-    <result property="title" column="title" />
-    <result property="author" column="author" />
-    <result property="publisher" column="publisher" />
-  </collection>
+    <id property="shelfId" column="shelf_id"/>
+    <collection property="books" ofType="my.sample.domain.model.Book">
+      <id property="isbn" column="isbn"/>
+      <result property="title" column="title"/>
+      <result property="author" column="author"/>
+      <result property="publisher" column="publisher"/>
+    </collection>
   </resultMap>
 
   <select id="find" resultMap="bookShelf-map">
