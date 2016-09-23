@@ -1,13 +1,12 @@
 package my.sample.domain.service;
 
-import java.util.List;
-
+import my.sample.domain.model.BookShelf;
 import my.sample.domain.model.BookShelf2;
+import my.sample.domain.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import my.sample.domain.model.BookShelf;
-import my.sample.domain.repository.BookRepository;
+import java.util.List;
 
 @Component
 public class ProductServiceImpl implements ProductService {
